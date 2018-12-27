@@ -12,24 +12,24 @@ module.exports = {
     assetsPublicPath: '/',
 
     // 网络请求的配置
-    // proxyTable: {
-    //   '/api': {  //我建的测试服务器，你也可以来拿数据看看
-    //     target: 'http://mjlib.cn/', //源地址
-    //     changeOrigin: true, //改变源
-    //     pathRewrite: {
-    //       '^/api': '' //路径重写
-    //     }
-    //   }
-    // },
     proxyTable: {
       '/api': {  //使用
-        target: 'http://127.0.0.1:3000/', //源地址
+        target: 'http://118.24.240.127', //源地址
         changeOrigin: true, //改变源
         pathRewrite: {
           '^/api': '' //路径重写
         }
       }
     },
+    // proxyTable: {
+    //   '/api': {  //使用
+    //     target: 'http://127.0.0.1:3000/', //源地址
+    //     changeOrigin: true, //改变源
+    //     pathRewrite: {
+    //       '^/api': '' //路径重写
+    //     }
+    //   }
+    // },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -42,10 +42,10 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: true,
+    useEslint: false,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
-    showEslintErrorsInOverlay: true,
+    showEslintErrorsInOverlay: false,
 
     /**
      * Source Maps

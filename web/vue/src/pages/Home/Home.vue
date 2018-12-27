@@ -1,44 +1,109 @@
 <template>
-  <div class="home">
-    <ly-tab
-      v-model="selectedId"
-      :items="items"
-      :options="options"
-      @change="handleChange"
-      class="fix"
-    />
-    <router-view></router-view>
+  <cube-page type="tab-composite-view" title="tab-composite">
+  <div slot="content" class="home">
+    <cube-tab-bar
+      :useTransition="disabled"
+      :showSlider="true"
+      v-model="selectedLabel"
+      :data="tabs"
+      ref="tabBar"
+      class="tab-top"
+    ></cube-tab-bar>
+    <div class="slide-wrapper">
+      <cube-slide
+        :loop="false"
+        :auto-play="false"
+        :show-dots="false"
+        :initial-index="index"
+        :options="slideOptions"
+        @scroll="onScroll"
+        @change="onChange"
+        ref="slide"
+      >
+        <cube-slide-item v-for="(tab,index) in tabs" :key="index">
+          <component ref="component" :is="tab.component"></component>
+        </cube-slide-item>
+      </cube-slide>
+    </div>
   </div>
+  </cube-page>
 </template>
 
 <script>
+import Hot from '../Home/Children/Hot/Hot.vue'
+import Box from '../Home/Children/Box.vue'
+import Dress from '../Home/Children/Dress.vue'
+import Man from '../Home/Children/Man.vue'
+import MBaby from '../Home/Children/Mbaby.vue'
+import Food from '../Home/Children/Food.vue'
 export default {
   name: 'Home',
   data () {
     return {
-      selectedId: 0, // 选中的id
-      items: [
-        {label: '热门'},
-        {label: '服饰'},
-        {label: '鞋包'},
-        {label: '母婴'},
-        {label: '百货'},
-        {label: '食品'},
-        {label: '内衣'},
-        {label: '男装'},
-        {label: '电器'}
-      ],
-      options: {
-        activeColor: '#e9232c' // 设置选中的颜色
+      index: 0,
+      slideOptions: {
+        listenScroll: true,
+        probeType: 3,
+        directionLockThreshold: 0
       },
-      // 二级路由路径
-      subRouteUrl: ['/home/hot', '/home/dress', '/home/box', '/home/mbaby', '/home/general', '/home/food', '/home/shirt', '/home/man', '/home/ele']
+      tabs: [
+        {
+          label: '热门',
+          component: Hot,
+        },
+        {
+          label: '包箱',
+          component: Box,
+        },
+        {
+          label: '服装',
+          component: Dress,
+        },
+        {
+          label: '男装',
+          component: Man,
+        },
+        {
+          label: '母婴',
+          component: MBaby,
+        },
+        {
+          label: '美食',
+          component: Food,
+        }
+      ]
     }
   },
+  computed: {
+    selectedLabel: {
+      get () {
+        return this.tabs[this.index].label
+      },
+      set (newVal) {
+        this.index = this.tabs.findIndex((value) => {
+          return value.label === newVal
+        })
+      }
+    },
+
+
+  },
+  mounted () {
+    this.onChange(this.index)
+  },
   methods: {
-    handleChange (item, index) {
-      // console.log(item, index);
-      this.$router.replace(this.subRouteUrl[index])
+    onScroll (pos) {
+      const tabBarWidth = this.$refs.tabBar.$el.clientWidth
+      const slideWidth = this.$refs.slide.slide.scrollerWidth
+      const transform = -pos.x / slideWidth * tabBarWidth
+      this.$refs.tabBar.setSliderTransform(transform)
+    },
+    onChange (current) {
+      this.index = current
+      const instance = this.$refs.component[current]
+      if (instance && instance.fetch) {
+        instance.fetch()
+      }
     }
   }
 }
@@ -46,15 +111,17 @@ export default {
 
 <style scoped lang="stylus" ref="stylesheet/stylus">
 .home {
-  background: #f5f5f5;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
   height: 100%;
 
-  .fix {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 998;
+  >>> .cube-tab {
+    padding: 10px 0;
+  }
+
+  .slide-wrapper {
+    flex: 1;
+    overflow: hidden;
   }
 }
 </style>

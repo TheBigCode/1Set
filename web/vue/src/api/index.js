@@ -2,7 +2,7 @@ import ajax from './ajax'
 
 // 1. 基础路径
 const BASE_URL = '/api'
-// const BASE_URL = 'http://mjlib.cn' // 我的测试服务器地址
+// const BASE_URL = 'http://118.24.240.127'
 
 // 2. 请求方法
 

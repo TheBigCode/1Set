@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div class="tab-wrapper">
+      <router-view></router-view>
+    </div>
     <tab-bar v-show="$route.meta.showBottomTabBar" class="bottom-view"></tab-bar>
   </div>
 </template>
@@ -26,7 +28,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .bottom-view {
@@ -37,5 +38,8 @@ export default {
   bottom: 0;
   z-index: 999;
   background-color: #fff;
+}
+
+.tab-wrapper {
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
+<cube-scroll ref="scroll">
   <div class="man">我是鞋包板块</div>
+</cube-scroll>
 </template>
 
 <script>
