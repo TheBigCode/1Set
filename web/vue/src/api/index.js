@@ -1,8 +1,8 @@
 import ajax from './ajax'
 
 // 1. 基础路径
-const BASE_URL = '/api'
-// const BASE_URL = 'http://118.24.240.127'
+// const BASE_URL = '/api'
+const BASE_URL = 'http://118.24.240.127'
 
 // 2. 请求方法
 

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="tab-wrapper">
+    <div>
       <router-view></router-view>
     </div>
     <tab-bar v-show="$route.meta.showBottomTabBar" class="bottom-view"></tab-bar>
@@ -40,6 +40,5 @@ export default {
   background-color: #fff;
 }
 
-.tab-wrapper {
-}
+
 </style>

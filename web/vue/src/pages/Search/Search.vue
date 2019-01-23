@@ -1,49 +1,51 @@
 <template>
-  <div class='search'>
+  <div class="search">
     <!--搜索导航-->
-    <search-nav :showSearchPanel='showSearchPanel'/>
-    <div class='shop'>
-      <!--左边-->
-      <div class='menu-wrapper'>
-        <ul>
-          <!--current-->
-          <li
-            class='menu-item'
-            v-for='(goods, index) in searchgoods'
-            :key='index'
-            :class='{current: index === currentIndex}'
-            @click='clickLeftItem(index)'
-            ref='menulist'
+    <search-nav :showSearchPanel="showSearchPanel"/>
+    <div class="shop">
+      <cube-scroll-nav
+        class="nav"
+        :side="true"
+        :data="searchgoods"
+        :options="scrollOptions"
+        v-if="searchgoods.length"
+      >
+        <template slot="bar" slot-scope="props">
+          <cube-scroll-nav-bar
+            direction="vertical"
+            :labels="props.labels"
+            :txts="barTxts"
+            :current="props.current"
           >
-            <span>{{goods.name}}</span>
-          </li>
-        </ul>
-      </div>
-      <!--右边-->
-      <div class='shop-wrapper'>
-        <ul ref='shopsParent'>
-          <li class='shops-li' v-for='(goods, index1) in searchgoods' :key='index1'>
-            <div class='shops-title'>
-              <h4>{{goods.name}}</h4>
-              <a href>查看更多 ></a>
-            </div>
-            <ul class='phone-type' v-if="goods.tag === 'phone'">
-              <li v-for='(phone, index) in goods.category' :key='index'>
-                <img :src='phone.icon' alt>
-              </li>
-            </ul>
-            <ul class='shops-items'>
-              <li v-for='(item, index2) in goods.items' :key='index2'>
-                <img :src='item.icon' alt>
-                <span>{{item.title}}</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+            <template slot-scope="props">
+              <div class="text">
+                <span>{{props.txt.name}}</span>
+              </div>
+            </template>
+          </cube-scroll-nav-bar>
+        </template>
+        <cube-scroll-nav-panel
+          class="nav-panel"
+          v-for="good in searchgoods"
+          :key="good.name"
+          :label="good.name"
+          :title="good.name"
+        >
+          <ul class="item">
+            <li v-for="item in good.items" :key="item.name" class="shops-item">
+              <div class="icon">
+                <img width="57" height="57" :src="item.icon">
+              </div>
+              <div class="content">
+                <h2 class="name">{{item.title}}</h2>
+              </div>
+            </li>
+          </ul>
+        </cube-scroll-nav-panel>
+      </cube-scroll-nav>
     </div>
     <!--搜索面板-->
-    <search-panel v-if='isShow' :showSearchPanel='showSearchPanel'/>
+    <search-panel v-if="isShow" :showSearchPanel="showSearchPanel"/>
   </div>
 </template>
 
@@ -51,8 +53,6 @@
 import SearchNav from './children/SearchNav'
 import SearchPanel from './children/SearchPanel'
 import {mapState} from 'vuex'
-
-import BScroll from 'better-scroll'
 
 export default {
   name: 'Search',
@@ -68,77 +68,25 @@ export default {
   },
   computed: {
     ...mapState(['searchgoods']),
-    //  1. 用于动态决定左侧哪个选项被选中
-    currentIndex () {
-      // 1.1 获取数据
-      const {scrollY, rightLiTops} = this
-      // 1.2  取出索引
-      return rightLiTops.findIndex((liTop, index) => {
-        this._leftScroll(index)
-        return scrollY >= liTop && scrollY < rightLiTops[index + 1]
+
+    barTxts () {
+      let ret = []
+      this.searchgoods.forEach((good) => {
+        const name = good.name
+        ret.push({
+          name
+        })
       })
+      return ret
     }
   },
+
   components: {
     SearchNav,
     SearchPanel
   },
-  watch: {
-    searchgoods () {
-      this.$nextTick(() => {
-        // 1.1 初始化
-        this._initBScroll()
-        // 1.2 求出右边所有版块的头部位置
-        this._initRightLiTops()
-      })
-    }
-  },
+
   methods: {
-    // 1.1 初始化
-    _initBScroll () {
-      // 1.1 左边
-      this.leftScroll = new BScroll('.menu-wrapper', {})
-      // 1.2 右边
-      this.rightScroll = new BScroll('.shop-wrapper', {
-        probeType: 3
-      })
-      // 1.3 监听右侧的滑动事件
-      this.rightScroll.on('scroll', (pos) => {
-        this.scrollY = Math.abs(pos.y)
-      })
-    },
-
-    // 1.2 求出右边所有版块的头部位置
-    _initRightLiTops () {
-      // 1.2.1 临时数组
-      const tempArr = []
-      // 1.2.2 定义变量记录高度
-      let top = 0
-      tempArr.push(top)
-      // 1.2.3 遍历li标签, 取出高度
-      let allLis = this.$refs.shopsParent.getElementsByClassName('shops-li')
-      Array.prototype.slice.call(allLis).forEach(li => {
-        top += li.clientHeight
-        tempArr.push(top)
-      })
-      // 1.2.4 更新数据
-      this.rightLiTops = tempArr
-    },
-    // 1.3  点击切换
-    clickLeftItem (index) {
-      this.scrollY = this.rightLiTops[index]
-      this.rightScroll.scrollTo(0, -this.scrollY, 300)
-    },
-
-    // 1.4 左侧联动
-    _leftScroll (index) {
-      let menuLists = this.$refs.menulist
-      // console.log(menuLists);
-      let el = menuLists[index]
-      // console.log(el);
-      this.leftScroll.scrollToElement(el, 300, 0, -100)
-    },
-
     // 1.5 是否显示搜索面板
     showSearchPanel (flag) {
       this.isShow = flag
@@ -165,96 +113,58 @@ export default {
   width: 100%;
   overflow: hidden;
 
-  .menu-wrapper {
-    background-color: #e0e0e0;
+  >>> .cube-scroll-nav-bar {
     width: 80px;
-    flex: 0 0 80px;
-
-    .menu-item {
-      width: 100%;
-      height: 60px;
-      background-color: #fafafa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: lighter;
-      color: #666666;
-      position: relative;
-    }
-
-    .current {
-      color: #e02e24;
-    }
-
-    .current::before {
-      content: '';
-      background-color: #e02e24;
-      width: 4px;
-      height: 30px;
-      position: absolute;
-      left: 0;
-    }
+    white-space: normal;
+    overflow: hidden;
   }
 
-  .shop-wrapper {
-    flex: 1;
-    background-color: #fff;
+  >>> .cube-scroll-nav-bar-item_active {
+    color: #f00;
+  }
 
-    .shops-title {
-      display: flex;
-      flex-direction: row;
-      padding: 0 10px;
-      height: 44px;
-      align-items: center;
-      justify-content: space-between;
-      color: #999;
+  >>> .cube-scroll-nav-panel-title {
+    padding-left: 14px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 7px;
+    color: #333;
+    background: #ccc;
+    text-align: left;
+  }
 
-      a {
-        color: #999;
-        text-decoration: none;
-        font-weight: lighter;
-      }
-    }
+  .nav {
+    width: 100%;
 
-    .shops-items {
-      display: flex;
-      flex-wrap: wrap;
-
-      li {
+    .nav-panel {
+      .item {
         display: flex;
-        flex-direction: column;
-        width: 33.3%;
-        height: 90px;
-        justify-content: center;
-        align-items: center;
-        color: #666;
-        font-weight: lighter;
-        font-size: 14px;
+        flex-wrap: wrap;
 
-        img {
-          width: 60%;
-          height: 60%;
-          margin-bottom: 5px;
-        }
-      }
-    }
+        .shops-item {
+          display: flex;
+          flex-direction: column;
+          width: 33.3%;
+          height: 90px;
+          justify-content: center;
+          align-items: center;
 
-    .phone-type {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      border-bottom-1px(#ccc);
+          .icon {
+            width: 60%;
+            height: 60%;
+            margin-bottom: 5px;
+          }
 
-      li {
-        width: 33.3%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 5px 0;
+          .content {
 
-        img {
-          width: 70%;
+            .name {
+              margin: 2px 0 0 8px;
+              height: 14px;
+              line-height: 14px;
+              font-size: 7px;
+              color: #666;
+            }
+          }
         }
       }
     }

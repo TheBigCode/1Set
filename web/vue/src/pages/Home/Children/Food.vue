@@ -1,5 +1,5 @@
 <template>
-  <div class="food">我是视频板块</div>
+  <div class="food">我是美食板块</div>
 </template>
 
 <script>

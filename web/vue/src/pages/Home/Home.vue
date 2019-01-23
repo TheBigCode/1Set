@@ -1,13 +1,12 @@
 <template>
-  <cube-page type="tab-composite-view" title="tab-composite">
-  <div slot="content" class="home">
+  <!-- <cube-page type="tab-composite-view" title="tab-composite"> -->
+  <div class="home">
     <cube-tab-bar
-      :useTransition="disabled"
+      :useTransition="false"
       :showSlider="true"
       v-model="selectedLabel"
       :data="tabs"
       ref="tabBar"
-      class="tab-top"
     ></cube-tab-bar>
     <div class="slide-wrapper">
       <cube-slide
@@ -26,7 +25,7 @@
       </cube-slide>
     </div>
   </div>
-  </cube-page>
+  <!-- </cube-page> -->
 </template>
 
 <script>
@@ -38,9 +37,15 @@ import MBaby from '../Home/Children/Mbaby.vue'
 import Food from '../Home/Children/Food.vue'
 export default {
   name: 'Home',
+  props: {
+    initialIndex: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
-      index: 0,
+      index: this.initialIndex,
       slideOptions: {
         listenScroll: true,
         probeType: 3,
@@ -110,6 +115,9 @@ export default {
 </script>
 
 <style scoped lang="stylus" ref="stylesheet/stylus">
+@import '../../common/stylus/mixins.styl';
+@import '../../common/stylus/variable';
+
 .home {
   display: flex;
   flex-direction: column;

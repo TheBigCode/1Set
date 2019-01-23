@@ -1,26 +1,28 @@
 <template>
-  <div class="hot">
-    <!--1.轮播图-->
-    <cube-slide ref="slide" :data="homecasual">
-      <cube-slide-item
-        v-for="(item, index) in homecasual"
-        :key="index"
-        @click.native="clickHandler(item, index)"
-      >
-        <a :href="item.url">
-          <img :src="item.image" width='100%' >
-        </a>
-      </cube-slide-item>
-    </cube-slide>
-    <!--2.中间导航-->
-    <hot-nav/>
-    <!--3.广告位-->
-    <div class="hot-ad">
-      <img src="./../../imgs/hot_ad/home_ad.gif" alt width="100%">
+  <cube-scroll ref="scroll">
+    <div class="hot">
+      <!--1.轮播图-->
+      <cube-slide ref="slide" :data="homecasual">
+        <cube-slide-item
+          v-for="(item, index) in homecasual"
+          :key="index"
+          @click.native="clickHandler(item, index)"
+        >
+          <a :href="item.url">
+            <img :src="item.image" width="100%">
+          </a>
+        </cube-slide-item>
+      </cube-slide>
+      <!--2.中间导航-->
+      <hot-nav/>
+      <!--3.广告位-->
+      <div class="hot-ad">
+        <img src="./../../imgs/hot_ad/home_ad.gif" alt width="100%">
+      </div>
+      <!--4.商品的列表-->
+      <hot-shop-list/>
     </div>
-    <!--4.商品的列表-->
-    <hot-shop-list/>
-  </div>
+  </cube-scroll>
 </template>
 
 <script>

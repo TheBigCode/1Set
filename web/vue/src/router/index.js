@@ -9,12 +9,6 @@ import Chat from './../pages/Chat/Chat'
 import Me from './../pages/Me/Me'
 import Login from './../pages/Login/Login'
 
-import Hot from '../pages/Home/Children/Hot/Hot'
-import Box from './../pages/Home/Children/Box'
-import Dress from './../pages/Home/Children/Dress'
-import Food from './../pages/Home/Children/Food'
-import Man from './../pages/Home/Children/Man'
-import Mbaby from './../pages/Home/Children/Mbaby'
 // 2. 声明使用
 Vue.use(VueRouter)
 
@@ -25,21 +19,7 @@ export default new VueRouter({
     {
       path: '/home',
       component: Home,
-      children: [
-        // 热门版块
-        {path: 'hot', component: Hot, meta: {showBottomTabBar: true}},
-        // 服饰版块
-        {path: 'dress', component: Dress, meta: {showBottomTabBar: true}},
-        // 鞋包版块
-        {path: 'box', component: Box, meta: {showBottomTabBar: true}},
-        // 母婴版块
-        {path: 'mbaby', component: Mbaby},
-        // 食品版块
-        {path: 'food', component: Food},
-        // 男装版块
-        {path: 'man', component: Man},
-        {path: '/home', redirect: '/home/hot'}
-      ]
+      meta: {showBottomTabBar: true}
     },
     {
       path: '/recommend',
