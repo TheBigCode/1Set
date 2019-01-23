@@ -7,7 +7,6 @@
         class="nav"
         :side="true"
         :data="searchgoods"
-        :options="scrollOptions"
         v-if="searchgoods.length"
       >
         <template slot="bar" slot-scope="props">
@@ -127,7 +126,7 @@ export default {
     padding-left: 14px;
     height: 26px;
     line-height: 26px;
-    font-size: 7px;
+    font-size: 14px;
     color: #333;
     background: #ccc;
     text-align: left;
@@ -161,7 +160,7 @@ export default {
               margin: 2px 0 0 8px;
               height: 14px;
               line-height: 14px;
-              font-size: 7px;
+              font-size: 14px;
               color: #666;
             }
           }

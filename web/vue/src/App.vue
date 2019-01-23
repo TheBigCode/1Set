@@ -39,6 +39,4 @@ export default {
   z-index: 999;
   background-color: #fff;
 }
-
-
 </style>

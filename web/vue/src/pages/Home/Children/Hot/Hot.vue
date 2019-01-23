@@ -1,6 +1,6 @@
 <template>
-  <cube-scroll ref="scroll">
-    <div class="hot">
+  <div class="hot">
+    <cube-scroll ref="scroll" :options="scrollOptions">
       <!--1.轮播图-->
       <cube-slide ref="slide" :data="homecasual">
         <cube-slide-item
@@ -21,8 +21,8 @@
       </div>
       <!--4.商品的列表-->
       <hot-shop-list/>
-    </div>
-  </cube-scroll>
+    </cube-scroll>
+  </div>
 </template>
 
 <script>
@@ -50,15 +50,26 @@ export default {
     this.$store.dispatch('reqHomeNav')
     // 3. 请求首页的商品列表数据
     this.$store.dispatch('reqHomeShopList')
-  }
+  },
+  data () {
+    return {
+      scrollOptions: {
+        directionLockThreshold: 0,
+        click: false
+      },
+    }
+  },
 }
 </script>
 
 <style scoped lang='stylus' ref='stylesheet/stylus'>
+@import '../../../../common/stylus/mixins.styl';
+
 .hot {
   width: 100%;
   height: 100%;
   background: #F5F5F5;
+  padding-bottom 50px;
 
   .hot-ad {
     background-color: #fff;
