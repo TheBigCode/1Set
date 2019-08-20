@@ -45,7 +45,7 @@ export default {
   // 5. 获取推荐的商品数据
   async reqSearchGoods ({commit}, callback) {
     const result = await getSearchGoods()
-    commit(SEARCH_GOODS, {searchgoods: result.message.data})
+    commit(SEARCH_GOODS, {searchgoods: result.items})
     callback && callback()
   },
 

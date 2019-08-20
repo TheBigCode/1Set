@@ -59,6 +59,7 @@ export default {
       }
     },
     changeHandler (label) {
+      console.log('change tab:'+label);
     }
   }
 }

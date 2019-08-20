@@ -11,28 +11,20 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
-    // 网络请求的配置
     proxyTable: {
       '/api': {  //使用
-        target: 'http://118.24.240.127', //源地址
+        target: 'http://127.0.0.1:3000/', //源地址
         changeOrigin: true, //改变源
         pathRewrite: {
           '^/api': '' //路径重写
         }
       }
     },
-    // proxyTable: {
-    //   '/api': {  //使用
-    //     target: 'http://127.0.0.1:3000/', //源地址
-    //     changeOrigin: true, //改变源
-    //     pathRewrite: {
-    //       '^/api': '' //路径重写
-    //     }
-    //   }
-    // },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: 'localhost', 
+
+    // host: '172.18.151.19', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

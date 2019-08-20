@@ -29,21 +29,21 @@
 </template>
 
 <script>
-import Hot from '../Home/Children/Hot/Hot.vue'
-import Box from '../Home/Children/Box.vue'
-import Dress from '../Home/Children/Dress.vue'
-import Man from '../Home/Children/Man.vue'
-import MBaby from '../Home/Children/Mbaby.vue'
-import Food from '../Home/Children/Food.vue'
+import Hot from "../Home/Children/Hot/Hot.vue";
+import Box from "../Home/Children/Box.vue";
+import Dress from "../Home/Children/Dress.vue";
+import Man from "../Home/Children/Man.vue";
+import MBaby from "../Home/Children/Mbaby.vue";
+import Food from "../Home/Children/Food.vue";
 export default {
-  name: 'Home',
+  name: "Home",
   props: {
     initialIndex: {
       type: Number,
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       index: this.initialIndex,
       slideOptions: {
@@ -53,65 +53,63 @@ export default {
       },
       tabs: [
         {
-          label: '热门',
-          component: Hot,
+          label: "热门",
+          component: Hot
         },
         {
-          label: '包箱',
-          component: Box,
+          label: "包箱",
+          component: Box
         },
         {
-          label: '服装',
-          component: Dress,
+          label: "服装",
+          component: Dress
         },
         {
-          label: '男装',
-          component: Man,
+          label: "男装",
+          component: Man
         },
         {
-          label: '母婴',
-          component: MBaby,
+          label: "母婴",
+          component: MBaby
         },
         {
-          label: '美食',
-          component: Food,
+          label: "美食",
+          component: Food
         }
       ]
-    }
+    };
   },
   computed: {
     selectedLabel: {
-      get () {
-        return this.tabs[this.index].label
+      get() {
+        return this.tabs[this.index].label;
       },
-      set (newVal) {
-        this.index = this.tabs.findIndex((value) => {
-          return value.label === newVal
-        })
+      set(newVal) {
+        this.index = this.tabs.findIndex(value => {
+          return value.label === newVal;
+        });
       }
-    },
-
-
+    }
   },
-  mounted () {
-    this.onChange(this.index)
+  mounted() {
+    this.onChange(this.index);
   },
   methods: {
-    onScroll (pos) {
-      const tabBarWidth = this.$refs.tabBar.$el.clientWidth
-      const slideWidth = this.$refs.slide.slide.scrollerWidth
-      const transform = -pos.x / slideWidth * tabBarWidth
-      this.$refs.tabBar.setSliderTransform(transform)
+    onScroll(pos) {
+      const tabBarWidth = this.$refs.tabBar.$el.clientWidth;
+      const slideWidth = this.$refs.slide.slide.scrollerWidth;
+      const transform = (-pos.x / slideWidth) * tabBarWidth;
+      this.$refs.tabBar.setSliderTransform(transform);
     },
-    onChange (current) {
-      this.index = current
-      const instance = this.$refs.component[current]
+    onChange(current) {
+      this.index = current;
+      const instance = this.$refs.component[current];
       if (instance && instance.fetch) {
-        instance.fetch()
+        instance.fetch();
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="stylus" ref="stylesheet/stylus">

@@ -25,7 +25,6 @@ import {
   Switch,
   Rate,
   Validator,
-  Upload,
   Form,
   // popup
   Popup,
@@ -49,12 +48,13 @@ import {
   ScrollNavBar,
   RecycleList
 } from 'cube-ui'
+import { Upload } from 'element-ui'
+// Vue.component(Button.name, Button);
 import App from './App'
 import router from './router'
-import LyTab from 'ly-tab'
 import store from './store'
 
-Vue.use(LyTab)
+Vue.use(Upload);
 Vue.use(Button)
 Vue.use(Loading)
 Vue.use(Tip)
@@ -71,7 +71,6 @@ Vue.use(Select)
 Vue.use(Switch)
 Vue.use(Rate)
 Vue.use(Validator)
-Vue.use(Upload)
 Vue.use(Form)
 Vue.use(Popup)
 Vue.use(Toast)

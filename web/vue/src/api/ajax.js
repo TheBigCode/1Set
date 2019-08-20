@@ -1,7 +1,9 @@
 import axios from 'axios'
+axios.defaults.withCredentials = true
 
 export default function ajax (url = '', params = {}, type = 'GET') {
   // 1. 定义promise对象
+  console.log('url:'+url)
   let promise
   return new Promise((resolve, reject) => {
     // 2. 判断请求的方式

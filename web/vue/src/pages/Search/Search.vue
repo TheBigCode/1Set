@@ -36,7 +36,7 @@
                 <img width="57" height="57" :src="item.icon">
               </div>
               <div class="content">
-                <h2 class="name">{{item.title}}</h2>
+                <h2 class="name">{{item.name}}</h2>
               </div>
             </li>
           </ul>

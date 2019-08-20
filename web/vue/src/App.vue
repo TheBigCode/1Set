@@ -8,17 +8,17 @@
 </template>
 
 <script>
-import TabBar from './components/TabBar/TabBar'
+import TabBar from "./components/TabBar/TabBar";
 
 export default {
-  name: 'App',
-  created () {
-    this.$store.dispatch('getUserInfo')
+  name: "App",
+  created() {
+    this.$store.dispatch("getUserInfo");
   },
   components: {
     TabBar
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="stylus" ref="stylesheet/stylus">
